@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <!-- Palette Name: Vibrant Financial Neon (Slate #0F172A, Cyan #06B6D4, Amber #F59E0B, Crimson #EF4444, Emerald #10B981, Purple #8B5CF6) -->
+  <!-- Plan Narrative & Structure:
+       1. Executive Summary & Dynamic Price Ticker ($75,948 Pivot).
+       2. The 4 Macro & Structural Shocks Grid.
+       3. Historical Seasonal Trends & Midterm Cycle Analysis (Chart 1).
+       4. On-Chain Metrics & Investor Realized Price Bands (Chart 2).
+       5. Derivatives & Options Max Pain Analysis (Chart 3).
+       6. Technical Confluence Support/Resistance Map (Chart 4).
+       7. Interactive Catalysts Calendar & Timeline.
+       8. Scenario Probabilities & Actionable Playbook (Chart 5).
+  -->
+  <!-- Visualization Justification:
+       Chart 1: Nov Performance Historical Bar Chart (Compare -> Bar Chart -> Chart.js -> Canvas)
+       Chart 2: Investor Cost Basis & MVRV Bands (Inform/Compare -> Grouped Bar -> Chart.js -> Canvas)
+       Chart 3: Deribit Options OI by Strike Price (Inform/Compare -> Stacked Bar -> Chart.js -> Canvas)
+       Chart 4: Support & Resistance Confluence Map (Organize/Compare -> Horizontal Bar -> Chart.js -> Canvas)
+       Chart 5: November Scenario Probabilities (Inform -> Donut Chart -> Chart.js -> Canvas)
+       Diagram 1: Key Catalysts Timeline (Organize -> HTML/CSS Responsive Cards, NO SVG)
+       Diagram 2: 4 Macro Shocks Matrix (Organize -> Styled HTML Grid Cards, NO SVG)
+       Confirming: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Phân Tích Thị Trường BTC - Tháng 11/2026</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0b0f19',
+              card: '#151c2c',
+              border: '#232d42',
+              cyan: '#06b6d4',
+              amber: '#f59e0b',
+              red: '#ef4444',
+              green: '#10b981',
+              purple: '#8b5cf6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      height: 320px;
+      max-height: 400px;
+    }
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 360px;
+      }
+    }
+    .gradient-text-cyan {
+      background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-text-amber {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .badge-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    /* Custom scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232d42;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #06b6d4;
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+  <!-- TOP HEADER NAVIGATION & TICKER -->
+  <header class="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-brand-cyan">Báo Cáo Điểm Uốn Thị Trường</span>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+              <span class="text-yellow-500">₿</span> BITCOIN THÁNG 11/2026
+            </h1>
+          </div>
+          <span class="inline-flex md:hidden items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+            Thử Thách Vùng $76K
+          </span>
+        </div>
+
+        <!-- Quick Navigation Links -->
+        <nav class="flex items-center gap-2 overflow-x-auto text-xs sm:text-sm py-1 no-scrollbar">
+          <a href="#overview" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">Tổng Quan</a>
+          <a href="#historical" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">Chu Kỳ Lịch Sử</a>
+          <a href="#onchain" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">On-Chain & Thợ Đào</a>
+          <a href="#derivatives" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">Phái Sinh & Options</a>
+          <a href="#levels" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">Bản Đồ Giá</a>
+          <a href="#scenarios" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition whitespace-nowrap">Kịch Bản</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+    <!-- KPI HIGHLIGHT CARDS BANNER -->
+    <section id="overview" class="space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-brand-border pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">1. Tổng Quan & Cú Sốc Cấu Trúc Tháng 11</h2>
+          <p class="text-sm text-gray-400">Bitcoin bước vào tháng 11/2026 trong trạng thái phòng thủ sau tháng 10 giảm 7,3%, đối mặt với 4 lực cản lớn.</p>
+        </div>
+        <div class="text-xs text-gray-400 bg-brand-card px-3 py-2 rounded-lg border border-brand-border flex items-center gap-2">
+          <span class="badge-dot bg-brand-green animate-pulse"></span>
+          <span>Dữ liệu cập nhật: <b>04/11/2026</b> (Hậu Bầu Cử Giữa Nhiệm Kỳ)</span>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-brand-card rounded-xl p-4 border border-brand-border shadow-lg">
+          <div class="text-xs font-medium text-gray-400 uppercase tracking-wider">Giá Giao Ngay (BTC/USD)</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1">$75,948</div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-red-400 mt-1">
+            <span>↓ -2.5% (đầu tháng)</span>
+            <span class="text-gray-500">|</span>
+            <span>YTD: -12.4%</span>
+          </div>
+        </div>
+
+        <div class="bg-brand-card rounded-xl p-4 border border-brand-border shadow-lg">
+          <div class="text-xs font-medium text-gray-400 uppercase tracking-wider">Giá Vốn STH (Ngắn Hạn)</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-amber mt-1">$75,832</div>
+          <div class="text-xs text-gray-400 mt-1">
+            Ngưỡng hòa vốn STH MVRV ~1.012
+          </div>
+        </div>
+
+        <div class="bg-brand-card rounded-xl p-4 border border-brand-border shadow-lg">
+          <div class="text-xs font-medium text-gray-400 uppercase tracking-wider">Thiệt hại Hack Binance</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-red mt-1">$6.3 Tỷ</div>
+          <div class="text-xs text-gray-400 mt-1">
+            18,270 BTC bị kẹt ở ví kẻ tấn công
+          </div>
+        </div>
+
+        <div class="bg-brand-card rounded-xl p-4 border border-brand-border shadow-lg">
+          <div class="text-xs font-medium text-gray-400 uppercase tracking-wider">Max Pain Options 27/11</div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-cyan mt-1">$80,000</div>
+          <div class="text-xs text-gray-400 mt-1">
+            Tổng OI: $3.55 Tỷ | Put/Call: 0.66
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Macro Shocks Matrix (HTML Grid Cards - NO SVG) -->
+      <div class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="text-brand-red">⚠️</span> Bốn Cú Sốc Cấu Trúc Đang Ép Giá BTC Đầu Tháng 11
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-[#0b0f19] p-4 rounded-lg border border-red-500/30 hover:border-red-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/40">Bảo Mật</span>
+              <span class="text-xs text-gray-400">29/10/2026</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Cú Sốc Hack Binance $6.3B</h4>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Vụ tấn công lớn nhất lịch sử crypto nhắm vào ví nóng Binance. Binance cam kết dùng quỹ SAFU bù đắp, nhưng 18,270 BTC đánh cắp treo lơ lửng như nguồn cung tiềm ẩn.
+            </p>
+          </div>
+
+          <div class="bg-[#0b0f19] p-4 rounded-lg border border-amber-500/30 hover:border-amber-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">Pháp Lý</span>
+              <span class="text-xs text-gray-400">03-04/11/2026</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Bầu Cử Giữa Nhiệm Kỳ Mỹ</h4>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Đảng Dân chủ giành kiểm soát Hạ viện (dự kiến ≥244 ghế). Triển vọng thông qua dự luật cấu trúc CLARITY Act trước hạn 03/01/2027 giảm xuống chỉ còn 2.55%–6.2%.
+            </p>
+          </div>
+
+          <div class="bg-[#0b0f19] p-4 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/40">Vĩ Mô</span>
+              <span class="text-xs text-gray-400">Fed & Bond Yields</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Fed Diều Hâu & Yield 4.93%</h4>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Thị trường định giá 85% khả năng Fed tăng lãi suất thêm 25 điểm vào 09/12 khi PCE lõi đạt 3.1% và GDP Q3 đạt 3.4%. Lợi suất trái phiếu 10Y giữ ở 4.93% đè nặng lên tài sản rủi ro.
+            </p>
+          </div>
+
+          <div class="bg-[#0b0f19] p-4 rounded-lg border border-cyan-500/30 hover:border-cyan-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">Tổ Chức</span>
+              <span class="text-xs text-gray-400">11/11 Phán Quyết</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">ETF Rút Ròng & MSCI Risk</h4>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              ETF bị rút kỷ lục -$643M (30/10) và -$398.6M (02/11). MSCI sắp công bố phán quyết ngày 11/11 về việc có loại cổ phiếu Strategy (MSTR) khỏi chỉ số hay không, đe dọa $1.8B-$2.8B dòng vốn.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: HISTORICAL SEASONALITY & MIDTERM CYCLE -->
+    <section id="historical" class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4">
+      <div>
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold text-white">2. Chu Kỳ Lịch Sử Tháng 11 & Bầu Cử Giữa Nhiệm Kỳ</h2>
+          <span class="text-xs font-medium text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-full border border-brand-cyan/30">Dữ liệu 10 năm (2016 - 2026)</span>
+        </div>
+        <p class="text-sm text-gray-400 mt-1">
+          Mặc dù tháng 11 có lợi nhuận trung bình lịch sử +5,4%, sự kết hợp giữa <b>"Tháng 10 Đỏ" (-7,3%)</b> và <b>năm Bầu cử Giữa Nhiệm Kỳ hậu Halving</b> lại thường kích hoạt áp lực điều chỉnh kéo dài. Các năm 2018 và 2025 sau Tháng 10 Đỏ đều chứng kiến tháng 11 giảm sâu (-36,9% và -17,5%).
+        </p>
+      </div>
+
+      <!-- Chart 1 Container -->
+      <div class="bg-[#0b0f19] p-4 rounded-xl border border-brand-border">
+        <div class="chart-container">
+          <canvas id="seasonalityChart"></canvas>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-300 pt-2">
+        <div class="p-3 rounded-lg bg-[#0b0f19] border border-brand-border">
+          <b class="text-brand-red block mb-1">🔴 Hiệu Ứng Nối Tiếp Tháng 10 Đỏ:</b>
+          Khi Tháng 10 đóng nến đỏ (2018, 2025, 2026), tháng 11 có xác suất 100% giảm tiếp trong lịch sử với mức giảm trung bình -27,2%.
+        </div>
+        <div class="p-3 rounded-lg bg-[#0b0f19] border border-brand-border">
+          <b class="text-brand-amber block mb-1">⚖️ Bầu Cử Giữa Nhiệm Kỳ (Midterm):</b>
+          Hiệu suất trung bình 30 ngày sau ngày bỏ phiếu giữa nhiệm kỳ là -13,5% và 90 ngày sau đó là -17,1% (các năm 2014, 2018, 2022).
+        </div>
+        <div class="p-3 rounded-lg bg-[#0b0f19] border border-brand-border">
+          <b class="text-brand-green block mb-1">🌱 Triển Vọng Kỳ Hậu Bầu Cử:</b>
+          Đáy đóng cửa chu kỳ thường xuất hiện 1-71 ngày sau bầu cử giữa nhiệm kỳ, trước khi bước vào năm bứt phá (+34% năm 2015, +94% năm 2019, +156% năm 2023).
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ON-CHAIN METRICS & MINER SQUEEZE -->
+    <section id="onchain" class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4">
+      <div>
+        <h2 class="text-xl font-bold text-white">3. Dữ Liệu On-Chain & Ép Biên Lợi Nhuận Thợ Đào (Hashprice Squeeze)</h2>
+        <p class="text-sm text-gray-400 mt-1">
+          Các chỉ báo nội tại mạng lưới cho thấy thị trường đang ở mốc hòa vốn nhạy cảm. Toàn bộ nhóm nhà đầu tư ngắn hạn (STH) có giá vốn trung bình tại <b>$75,832</b>, trong khi thợ đào đang chịu áp lực ép biên lợi nhuận nghiêm trọng do độ khó tăng kỷ lục.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 2 Container -->
+        <div class="lg:col-span-2 bg-[#0b0f19] p-4 rounded-xl border border-brand-border">
+          <h3 class="text-sm font-semibold text-white mb-2">Các Vùng Giá Vốn Quan Trọng (Cost Basis Bands)</h3>
+          <div class="chart-container">
+            <canvas id="costBasisChart"></canvas>
+          </div>
+        </div>
+
+        <!-- On-Chain Diagnostics List -->
+        <div class="space-y-3">
+          <div class="bg-[#0b0f19] p-4 rounded-xl border border-brand-border space-y-3">
+            <h3 class="text-sm font-bold text-brand-cyan border-b border-brand-border pb-2">📊 Chỉ Số Sức Khỏe On-Chain</h3>
+            
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Nguồn cung có lãi (Supply in Profit):</span>
+              <span class="font-bold text-amber-400">63.6% ↓ (-3.2%)</span>
+            </div>
+            
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Chỉ số NUPL (Lãi/Lỗ ròng chưa thực hiện):</span>
+              <span class="font-bold text-white">4.0% ↓ (-45.1%)</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Chỉ số SOPR điều chỉnh (CoinGlass):</span>
+              <span class="font-bold text-red-400">1.00734 (Sát hòa vốn)</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Tỷ trọng Vốn Nóng (Hot Capital Share):</span>
+              <span class="font-bold text-red-400">21.8% (Vượt mức cao)</span>
+            </div>
+          </div>
+
+          <div class="bg-[#0b0f19] p-4 rounded-xl border border-brand-border space-y-3">
+            <h3 class="text-sm font-bold text-brand-amber border-b border-brand-border pb-2">⛏️ Kinh Tế Học Khai Thác (Miners)</h3>
+            
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Tốc độ băm (Hashrate):</span>
+              <span class="font-bold text-white">1,082 EH/s (Cực đỉnh)</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Độ khó tăng 13 ngày qua:</span>
+              <span class="font-bold text-red-400">+12.7% (Thu hẹp margin)</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Hashprice (Doanh thu tính toán):</span>
+              <span class="font-bold text-amber-400">$33.18/PH/s/ngày (-17.5%)</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Tỷ lệ phí giao dịch / Doanh thu:</span>
+              <span class="font-bold text-gray-300">0.65% (Rất thấp)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: DERIVATIVES & OPTIONS MAX PAIN -->
+    <section id="derivatives" class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4">
+      <div>
+        <h2 class="text-xl font-bold text-white">4. Thị Trường Phái Sinh & Định Giá Quyền Chọn (Options)</h2>
+        <p class="text-sm text-gray-400 mt-1">
+          Xuất hiện nghịch lý trên thị trường Perpetual: <b>Perpetual CVD âm (-$564.8M)</b> phản ánh lực bán áp đảo, nhưng <b>Funding Rate vẫn dương (+11.3%/năm)</b> cho thấy phe Long đòn bẩy đang bắt đáy và trả phí cho phe Short, làm tăng nguy cơ thanh lý dây chuyền.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 3 Container -->
+        <div class="lg:col-span-2 bg-[#0b0f19] p-4 rounded-xl border border-brand-border">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-semibold text-white">Hợp Đồng Mở Options Deribit Đáo Hạn 27/11 ($3.55B OI)</h3>
+            <span class="text-xs text-brand-cyan">Max Pain: $80,000</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="optionsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Options Insights -->
+        <div class="bg-[#0b0f19] p-4 rounded-xl border border-brand-border flex flex-col justify-between space-y-4">
+          <div>
+            <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+              <span class="text-brand-cyan">🎯</span> Thông Số Quyền Chọn Tháng 11
+            </h3>
+            <ul class="space-y-3 text-xs text-gray-300">
+              <li class="flex justify-between border-b border-brand-border pb-2">
+                <span class="text-gray-400">Tỷ lệ Put/Call Ratio:</span>
+                <span class="font-bold text-brand-cyan">0.66 (Nghiêng về Call)</span>
+              </li>
+              <li class="flex justify-between border-b border-brand-border pb-2">
+                <span class="text-gray-400">Tường Put bảo vệ lớn nhất:</span>
+                <span class="font-bold text-amber-400">$75,000 (2,447 BTC)</span>
+              </li>
+              <li class="flex justify-between border-b border-brand-border pb-2">
+                <span class="text-gray-400">Tường Call kháng cự lớn nhất:</span>
+                <span class="font-bold text-green-400">$90,000 (4,293 BTC)</span>
+              </li>
+              <li class="flex justify-between border-b border-brand-border pb-2">
+                <span class="text-gray-400">Options 25-Delta Skew:</span>
+                <span class="font-bold text-red-400">11.2% (Thiêng về phòng thủ)</span>
+              </li>
+              <li class="flex justify-between pb-1">
+                <span class="text-gray-400">Biến động ngầm định (IV ngắn):</span>
+                <span class="font-bold text-white">43.5% – 47.0%</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-3 rounded-lg bg-brand-card border border-brand-border text-xs text-gray-300">
+            <b class="text-brand-amber block mb-1">💡 Nhận xét từ QCP Group:</b>
+            Dòng tiền tổ chức mua mạnh quyền chọn Put $74,000 đáo hạn giữa tháng 11 để phòng thủ, đồng thời bán Call Spread $82K/$85K để thu phí bảo hiểm.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: TECHNICAL CONFLUENCE MAP -->
+    <section id="levels" class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4">
+      <div>
+        <h2 class="text-xl font-bold text-white">5. Bản Đồ Hội Tụ Kỹ Thuật (Confluence Support & Resistance)</h2>
+        <p class="text-sm text-gray-400 mt-1">
+          Mô hình Ba Đỉnh (Daily Triple Top) phát tín hiệu cảnh báo về vùng <b>$74,000</b>. Toàn bộ cấu trúc xu hướng tháng 11 phụ thuộc vào việc bảo vệ pháo đài <b>$75,000 – $76,874</b> (hội tụ 200d EMA, 50w MA, STH Price & MSTR Cost).
+        </p>
+      </div>
+
+      <!-- Chart 4 Container -->
+      <div class="bg-[#0b0f19] p-4 rounded-xl border border-brand-border">
+        <div class="chart-container" style="height: 380px;">
+          <canvas id="confluenceChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Detail Confluence Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-[#0b0f19] text-gray-400 border-b border-brand-border uppercase tracking-wider">
+              <th class="p-3">Phân Loại Vùng Giá</th>
+              <th class="p-3">Biên Độ (USD)</th>
+              <th class="p-3">Hội Tụ Chỉ Báo Kỹ Thuật & On-Chain</th>
+              <th class="p-3">Ý Nghĩa Cấu Trúc</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-border text-gray-300">
+            <tr class="hover:bg-[#0b0f19]">
+              <td class="p-3 font-bold text-red-400">Kháng cự Cung Dài Hạn</td>
+              <td class="p-3 font-semibold text-white">$85,000 – $88,364</td>
+              <td class="p-3">Đỉnh 02/10 ($87.2k), Đóng cửa năm 2025 ($88.3k)</td>
+              <td class="p-3">Cần vượt qua $88.3k để nến năm 2026 giữ sắc xanh</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19]">
+              <td class="p-3 font-bold text-amber-400">Kháng cự Đảo Chiều</td>
+              <td class="p-3 font-semibold text-white">$81,531 – $83,000</td>
+              <td class="p-3">Fib 78.6% ($82.9k), Trung tuyến Gaussian tuần ($81.8k)</td>
+              <td class="p-3">Đóng nến tuần trên $83k để kết thúc xu hướng giảm</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19]">
+              <td class="p-3 font-bold text-yellow-400">Kháng cự Phục Hồi</td>
+              <td class="p-3 font-semibold text-white">$79,485 – $80,508</td>
+              <td class="p-3">Max Pain 27/11 ($80k), 20d EMA ($80.1k), 50d EMA ($80.2k)</td>
+              <td class="p-3">Rào cản lớn nhất cho các nhịp hồi phục ngắn hạn</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19] bg-cyan-950/20">
+              <td class="p-3 font-bold text-cyan-400">Trục Xoay (Pivot)</td>
+              <td class="p-3 font-semibold text-white">$77,700 – $78,219</td>
+              <td class="p-3">Giá vốn nhóm mua 1-3 tháng ($77.7k), 100d EMA ($77.7k)</td>
+              <td class="p-3">Vùng áp lực bán hòa vốn của nhóm nhà đầu cơ ngắn hạn</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19] bg-emerald-950/30">
+              <td class="p-3 font-bold text-emerald-400">Pháo Đài Hỗ Trợ 1</td>
+              <td class="p-3 font-semibold text-white">$75,000 – $76,874</td>
+              <td class="p-3">21w EMA ($76.8k), 200d EMA ($76.4k), STH Price ($75.8k), 50w MA ($75.6k), MSTR Cost ($75.4k)</td>
+              <td class="p-3">Vùng sinh tử quyết định xu hướng chu kỳ tháng 11</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19]">
+              <td class="p-3 font-bold text-blue-400">Hỗ Trợ Bậc 2</td>
+              <td class="p-3 font-semibold text-white">$73,100 – $74,000</td>
+              <td class="p-3">Mục tiêu Ba Đỉnh ($74k), 20w SMA ($73.7k), 200d SMA ($73.1k)</td>
+              <td class="p-3">Vùng đệm hỗ trợ cấu trúc trung hạn tiếp theo</td>
+            </tr>
+            <tr class="hover:bg-[#0b0f19]">
+              <td class="p-3 font-bold text-purple-400">Vùng Đầu Hàng Chiến Thuật</td>
+              <td class="p-3 font-semibold text-white">$68,400 – $71,000</td>
+              <td class="p-3">STH MVRV 0.85 (Lỗ -12%), Dải dưới Kênh Gaussian tuần</td>
+              <td class="p-3">Vùng bẫy bán khống (Short Trap) và rũ bỏ đòn bẩy triệt để</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CATALYSTS TIMELINE & SCENARIOS -->
+    <section id="scenarios" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Interactive Catalysts Timeline (2 cols) -->
+      <div class="lg:col-span-2 bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-white">6. Lịch Trình Catalysts Định Đoạt Tháng 11</h2>
+          <p class="text-sm text-gray-400 mt-1">Fed không họp trong tháng 11; biến động hoàn toàn phụ thuộc vào dữ liệu lạm phát/lao động Mỹ và phán quyết MSCI.</p>
+        </div>
+
+        <!-- HTML/CSS Timeline (NO SVG) -->
+        <div class="space-y-3">
+          
+          <div class="p-3.5 rounded-lg bg-[#0b0f19] border-l-4 border-amber-500 border-t border-r border-b border-brand-border flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-amber-400 font-bold">
+                <span>📅 THỨ TƯ, 04/11/2026</span>
+                <span class="bg-amber-500/20 px-2 py-0.5 rounded text-[10px]">Hôm Nay</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-0.5">Kết Quả Bầu Cử Giữa Nhiệm Kỳ & ADP Employment</h4>
+              <p class="text-xs text-gray-300 mt-1">Dự báo ADP: 90K. Dân chủ thắng Hạ viện, thu hẹp cửa thông qua CLARITY Act.</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-brand-card border border-brand-border text-gray-300">Vĩ Mô/Pháp Lý</span>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0b0f19] border-l-4 border-red-500 border-t border-r border-b border-brand-border flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-red-400 font-bold">
+                <span>🚨 THỨ SÁU, 06/11/2026</span>
+                <span class="bg-red-500/20 px-2 py-0.5 rounded text-[10px]">Trọng Tâm Week 1</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-0.5">Báo Cáo Bảng Lương Phi Nông Nghiệp (NFP) & Binance PoR</h4>
+              <p class="text-xs text-gray-300 mt-1">NFP dự báo 29K (Trước đó: 63K). Binance hoàn tất Zero-Knowledge Proof of Reserves.</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-brand-card border border-brand-border text-red-400">High Volatility</span>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0b0f19] border-l-4 border-cyan-500 border-t border-r border-b border-brand-border flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-cyan-400 font-bold">
+                <span>📊 THỨ BA, 10/11/2026</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-0.5">Chỉ Số Giá Tiêu Dùng Mỹ (CPI Tháng 10)</h4>
+              <p class="text-xs text-gray-300 mt-1">Thước đo lạm phát trực tiếp quyết định xem Fed có tăng 25bps vào cuộc họp 09/12 hay không.</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-brand-card border border-brand-border text-gray-300">Vĩ Mô</span>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0b0f19] border-l-4 border-purple-500 border-t border-r border-b border-brand-border flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-purple-400 font-bold">
+                <span>⚡ THỨ TƯ, 11/11/2026</span>
+                <span class="bg-purple-500/20 px-2 py-0.5 rounded text-[10px]">Sự Kiện Cấu Trúc</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-0.5">Phán Quyết MSCI Danh Sách Loại Trừ (Strategy / MSTR)</h4>
+              <p class="text-xs text-gray-300 mt-1">Quyết định xem $1.8B–$2.8B dòng vốn thụ động có bị buộc phải bán thoái vốn MSTR hay không.</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-brand-card border border-brand-border text-purple-400">Tổ Chức Risk</span>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0b0f19] border-l-4 border-emerald-500 border-t border-r border-b border-brand-border flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-emerald-400 font-bold">
+                <span>🎯 THỨ SÁU, 27/11 & 30/11/2026</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-0.5">Đáo Hạn Options Tháng 11 ($3.55B) & MSCI Rebalance</h4>
+              <p class="text-xs text-gray-300 mt-1">Chốt điểm Max Pain $80,000 và hoàn tất tái cơ cấu danh mục quỹ chỉ số MSCI.</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-brand-card border border-brand-border text-gray-300">Phái Sinh</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scenarios & Playbook (1 col) -->
+      <div class="bg-brand-card rounded-xl p-6 border border-brand-border shadow-lg space-y-4 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-white">7. Kịch Bản & Playbook</h2>
+          <p class="text-sm text-gray-400 mt-1">Tỷ lệ xác suất 3 kịch bản thị trường trong tháng 11/2026.</p>
+          
+          <!-- Chart 5 Container -->
+          <div class="bg-[#0b0f19] p-3 rounded-xl border border-brand-border mt-3">
+            <div class="chart-container" style="height: 220px;">
+              <canvas id="scenarioChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <div class="p-3 rounded-lg bg-[#0b0f19] border border-cyan-500/40">
+            <b class="text-cyan-400 block mb-0.5">🔹 Cơ Sở (60% Prob):</b>
+            Giữ thành công vùng $75k–$76k, tích lũy hồi phục về điểm Max Pain <b>$80,000 – $82,000</b>.
+          </div>
+          <div class="p-3 rounded-lg bg-[#0b0f19] border border-red-500/40">
+            <b class="text-red-400 block mb-0.5">🔻 Tiêu Cực (30% Prob):</b>
+            Thủng $75,000 đóng nến tuần, kích hoạt thanh lý về <b>$73,100–$74,000</b> hoặc <b>$68,400</b>.
+          </div>
+          <div class="p-3 rounded-lg bg-[#0b0f19] border border-green-500/40">
+            <b class="text-green-400 block mb-0.5">🚀 Tích Cực (10% Prob):</b>
+            Đóng nến tuần vượt $83,000, mở đường hướng tới mốc đóng nến năm 2025 tại <b>$88,364</b>.
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FOOTER DISCLAIMER -->
+    <footer class="border-t border-brand-border pt-6 text-center text-xs text-gray-400">
+      <p>Báo cáo Phân Tích Điểm Uốn Thị Trường Bitcoin Tháng 11/2026 | Dữ liệu tổng hợp từ Glassnode, CryptoQuant, QCP Group, Coinglass & Deribit.</p>
+      <p class="mt-1 text-gray-500">Khuyên cáo: Thông tin mang tính chất phân tích kỹ thuật và dữ liệu on-chain, không phải lời khuyên đầu tư tài chính.</p>
+    </footer>
+
+  </main>
+
+  <!-- JAVASCRIPT FOR CHART.JS IMPLEMENTATIONS -->
+  <script>
+    // Set global default fonts for Chart.js
+    Chart.defaults.font.family = "system-ui, -apple-system, sans-serif";
+    Chart.defaults.color = "#9ca3af";
+
+    // Chart.js Shared Tooltip Title Callback for Label Array Handling
+    const sharedTooltipCallback = {
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: function(tooltipItems) {
+              const item = tooltipItems[0];
+              let label = item.chart.data.labels[item.dataIndex];
+              if (Array.isArray(label)) {
+                return label.join(' ');
+              } else {
+                return label;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // ----------------------------------------------------------------
+    // CHART 1: SEASONALITY BAR CHART (2016 - 2026)
+    // ----------------------------------------------------------------
+    const seasonalityCtx = document.getElementById('seasonalityChart').getContext('2d');
+    new Chart(seasonalityCtx, {
+      type: 'bar',
+      data: {
+        labels: ['2016', '2017', '2018 (Đỏ)', '2019', '2020', '2021', ['2022', '(Giữa Kỳ)'], '2023', '2024', '2025 (Đỏ)', ['2026', '(Hiện Tại)']],
+        datasets: [{
+          label: 'Hiệu Suất Tháng 11 (%)',
+          data: [5.4, 53.5, -36.9, 0.9, 42.8, -7.1, -16.2, 8.9, 37.4, -17.5, -2.5],
+          backgroundColor: [
+            '#06b6d4', '#06b6d4', '#ef4444', '#06b6d4', '#06b6d4', 
+            '#ef4444', '#ef4444', '#06b6d4', '#06b6d4', '#ef4444', '#f59e0b'
+          ],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: sharedTooltipCallback.plugins.tooltip
+        },
+        scales: {
+          y: {
+            grid: { color: '#232d42' },
+            ticks: { callback: value => value + '%' }
+          },
+          x: {
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    // ----------------------------------------------------------------
+    // CHART 2: COST BASIS & REALIZED PRICE BANDS
+    // ----------------------------------------------------------------
+    const costBasisCtx = document.getElementById('costBasisChart').getContext('2d');
+    new Chart(costBasisCtx, {
+      type: 'bar',
+      data: {
+        labels: [
+          ['LTH Cost', '($48.0k)'], 
+          ['MSTR Cost', '($75.4k)'], 
+          ['50w MA', '($75.6k)'], 
+          ['STH Cost', '($75.8k)'], 
+          ['Giá Hiện Tại', '($75.9k)'], 
+          ['Nhóm 1-3M', '($77.7k)'], 
+          ['100d EMA', '($77.8k)']
+        ],
+        datasets: [{
+          label: 'Mức Giá Vốn (USD)',
+          data: [48000, 75444, 75602, 75832, 75948, 77700, 77761],
+          backgroundColor: [
+            '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#06b6d4', '#ef4444', '#64748b'
+          ],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: sharedTooltipCallback.plugins.tooltip
+        },
+        scales: {
+          y: {
+            min: 40000,
+            max: 85000,
+            grid: { color: '#232d42' },
+            ticks: { callback: value => '$' + value.toLocaleString() }
+          },
+          x: {
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    // ----------------------------------------------------------------
+    // CHART 3: OPTIONS OPEN INTEREST STRIKES (Deribit Nov 27)
+    // ----------------------------------------------------------------
+    const optionsCtx = document.getElementById('optionsChart').getContext('2d');
+    new Chart(optionsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['$65,000', '$70,000', ['$75,000', '(Put Wall)'], ['$80,000', '(Max Pain)'], '$85,000', ['$90,000', '(Call Wall)'], '$95,000', '$100,000'],
+        datasets: [
+          {
+            label: 'Put Open Interest (BTC)',
+            data: [1200, 1850, 2447, 1100, 650, 420, 300, 150],
+            backgroundColor: '#ef4444',
+            borderRadius: 4
+          },
+          {
+            label: 'Call Open Interest (BTC)',
+            data: [200, 450, 890, 2150, 3100, 4293, 2800, 1950],
+            backgroundColor: '#10b981',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 12 } },
+          tooltip: sharedTooltipCallback.plugins.tooltip
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, grid: { color: '#232d42' }, ticks: { callback: value => value + ' BTC' } }
+        }
+      }
+    });
+
+    // ----------------------------------------------------------------
+    // CHART 4: CONFLUENCE HORIZONTAL BAR CHART
+    // ----------------------------------------------------------------
+    const confluenceCtx = document.getElementById('confluenceChart').getContext('2d');
+    new Chart(confluenceCtx, {
+      type: 'bar',
+      indexAxis: 'y',
+      data: {
+        labels: [
+          ['Rủi Ro Đuôi', '($57.8k-$60k)'],
+          ['Vùng Đầu Hàng', '($68.4k-$71k)'],
+          ['Hỗ Trợ Bậc 2', '($73.1k-$74k)'],
+          ['Pháo Đài Hỗ Trợ', '($75k-$76.8k)'],
+          ['Trục Xoay Ngắn Hạn', '($77.7k-$78.2k)'],
+          ['Kháng Cự Hồi Phục', '($79.5k-$80.5k)'],
+          ['Kháng Cự Đảo Chiều', '($81.5k-$83k)'],
+          ['Vùng Cung Dài Hạn', '($85k-$88.4k)']
+        ],
+        datasets: [{
+          label: 'Biên Độ Vùng Giá (USD)',
+          data: [60000, 71000, 74000, 76874, 78219, 80508, 83000, 88364],
+          backgroundColor: [
+            '#ef4444', '#8b5cf6', '#3b82f6', '#10b981', '#06b6d4', '#eab308', '#f59e0b', '#dc2626'
+          ],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: sharedTooltipCallback.plugins.tooltip
+        },
+        scales: {
+          x: {
+            min: 50000,
+            max: 92000,
+            grid: { color: '#232d42' },
+            ticks: { callback: value => '$' + value.toLocaleString() }
+          },
+          y: {
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    // ----------------------------------------------------------------
+    // CHART 5: SCENARIOS DONUT CHART
+    // ----------------------------------------------------------------
+    const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+    new Chart(scenarioCtx, {
+      type: 'doughnut',
+      data: {
+        labels: [
+          ['Kịch Bản Cơ Sở', '(Tích Lũy & $80k)'], 
+          ['Kịch Bản Tiêu Cực', '(Gãy $75k & $70k)'], 
+          ['Kịch Bản Tích Cực', '(Đảo Chiều $85k)']
+        ],
+        datasets: [{
+          data: [60, 30, 10],
+          backgroundColor: ['#06b6d4', '#ef4444', '#10b981'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+          tooltip: sharedTooltipCallback.plugins.tooltip
+        },
+        cutout: '65%'
+      }
+    });
+  </script>
+</body>
+</html>
